@@ -1,0 +1,22 @@
+# Totally Normal Dash
+
+Geometry Dash but normal.
+
+T
+
+Key switching in level
+Minecraft commands and F3
+Sprinting and stamina
+Critical Jumps
+Draggable ship
+
+Everything is provided as is, bug reports are welcome on the GitHub issues page.
+
+Mobile not supported, makes GD normal in ways that mobile cannot handle.
+
+Sprinting does not work in the editor due to key conflicts
+Sprinting is disabled in platformer by default as there are some strange bugs I haven't figured out how to fix with inputs.
+Keyboard Pro does not work in practice mode yet
+
+
+Hi Stallion.

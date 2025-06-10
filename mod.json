@@ -1,0 +1,94 @@
+{
+	"geode": "4.5.0",
+	"gd": {
+		"win": "2.2074",
+		"mac": "2.2074"
+	},
+	"id": "alphalaneous.normal_dash",
+	"name": "Totally Normal Dash",
+	"version": "v1.0.0",
+	"developer": "Alphalaneous",
+	"description": "100% normal Geometry Dash",
+	"resources": {
+		"files": [
+			"resources/*.ogg",
+			"resources/*.png",
+			"resources/fonts/*",
+			"resources/textures/*"
+		]
+	},
+	"settings": {
+		"platformer-sprint": {
+			"name": "Platformer Sprint (Experimental)",
+			"type": "bool",
+			"description": "Kind of works, sometimes drops keypresses or gets stuck sprinting :(",
+			"default": false
+		},
+		"sprint": {
+			"name": "Sprint",
+			"type": "bool",
+			"default": true
+		},
+		"f3-menu": {
+			"name": "F3 Menu",
+			"type": "bool",
+			"default": true
+		},
+		"sprint-modifier": {
+			"name": "Sprint Modifier",
+			"description": "How much sprint modifies your current speed",
+			"type": "float",
+			"default": 1.5,
+			"min": 0.01
+		},
+		"critical-jumps": {
+			"name": "Critical Jumps",
+			"type": "bool",
+			"default": true
+		},
+		"critical-jump-odds": {
+			"name": "Critical Jump Odds (1 in n)",
+			"description": "How often critical jumps happen",
+			"type": "int",
+			"default": 15,
+			"min": 1
+		},
+		"drag-ship": {
+			"name": "Drag Ship",
+			"type": "bool",
+			"default": true
+		},
+		"keyboard-pro": {
+			"name": "Keyboard Pro",
+			"type": "bool",
+			"default": true
+		},
+		"keyboard-pro-interval": {
+			"name": "Keyboard Pro Interval (Distance)",
+			"description": "How often the key switch happens in units",
+			"type": "int",
+			"default": 3000,
+			"min": 5
+		},
+		"keyboard-pro-preload": {
+			"name": "Keyboard Pro Preload",
+			"description": "How many key changes are loaded at a time, increase this as you lower the interval to prevent them from appearing out of thin air on screen",
+			"type": "int",
+			"default": 10,
+			"min": 2,
+			"max": 100
+		}
+	},
+	"dependencies": {
+		"geode.custom-keybinds": "1.10.4",
+		"geode.node-ids": "1.20.1"
+	},
+	"tags": [
+		"joke"
+	],
+	"links": {
+        "homepage": "https://linktr.ee/Alphalaneous",
+        "source": "https://github.com/Alphalaneous/Normal-Dash",
+        "community": "https://discord.gg/Txn2CA5dHF"
+    }
+}
