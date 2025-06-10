@@ -612,7 +612,7 @@ CCLayerColor* MyUILayer::createChatCell(const std::string& str, bool error, bool
 
     return bg;
 }
-
+#ifdef GEODE_IS_WINDOWS
 class $modify(MyCCEGLView, CCEGLView) {
 
     void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -642,3 +642,4 @@ class $modify(MyCCEGLView, CCEGLView) {
         CCEGLView::onGLFWKeyCallback(window, key, scancode, action, mods);
     }
 };
+#endif
