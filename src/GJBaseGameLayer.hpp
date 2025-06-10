@@ -151,6 +151,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		CCPoint mouseToObj = m_objectLayer->convertToNodeSpaceAR(getMousePos());
 		#else
 		CCPoint mouseToObj = m_objectLayer->convertToNodeSpace(getMousePos());
+		#endif
 
 		MyPlayerObject* player1 = static_cast<MyPlayerObject*>(m_player1);
 		player1->handleShipDrag(mouseToObj);
