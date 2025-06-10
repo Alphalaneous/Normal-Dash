@@ -147,7 +147,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
     void update(float p0) {
 		auto fields = m_fields.self();
 
+		#ifndef __APPLE__
 		CCPoint mouseToObj = m_objectLayer->convertToNodeSpaceAR(getMousePos());
+		#else
+		CCPoint mouseToObj = m_objectLayer->convertToNodeSpace(getMousePos());
 
 		MyPlayerObject* player1 = static_cast<MyPlayerObject*>(m_player1);
 		player1->handleShipDrag(mouseToObj);
