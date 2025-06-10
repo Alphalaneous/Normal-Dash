@@ -4,11 +4,11 @@ Geometry Dash but normal.
 
 <cr>THIS MOD IS CHEATING</c>
 
-Key switching in level
-Minecraft commands and F3
-Sprinting and stamina
-Critical Jumps
-Draggable ship
+- Key switching in level
+- Minecraft commands and F3
+- Sprinting and stamina
+- Critical Jumps
+- Draggable ship
 
 Everything is provided as is, bug reports are welcome on the GitHub issues page.
 
