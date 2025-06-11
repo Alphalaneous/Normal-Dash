@@ -613,6 +613,19 @@ CCLayerColor* MyUILayer::createChatCell(const std::string& str, bool error, bool
     return bg;
 }
 #ifdef GEODE_IS_WINDOWS
+/*
+Erymanthus:     @Alphalaneous unrelated but would an onKeyDown hook
+                (UILayer::onKeyDown) help bring Normal Dash to macos compat 
+Alphalaneous:   no
+                I needed access to the up and down keys which are blocked in text inputs
+                it is also not passed into UILayer::onKeyDown when a text input is focused
+Erymanthus:     keyboard dispatcher?
+Alphalaneous:   same thing
+                I already tried everything
+                have to go directly to the top to get the input
+tldr: to port command history to macos, arrow key detection
+needs to be reimplemented in objective-c
+*/
 class $modify(MyCCEGLView, CCEGLView) {
 
     void onGLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
