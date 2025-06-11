@@ -176,19 +176,7 @@ class $modify(MyPlayLayer, PlayLayer){
     void updateDebugLabels(float dt){
 
         if(!m_fields->debugText){
-            if(CCLabelBMFont* debugText = typeinfo_cast<CCLabelBMFont*>(getChildByID("debug-text"))) {
-                m_fields->debugText = debugText;
-
-                if(strcmp(debugText->getString(), "Ignore Damage") == 0 || strcmp(debugText->getString(), "Testmode") == 0) { //hacky fix for wrong node IDs
-                    if(CCNode* node = getChildByID("percentage-label")){
-                        m_fields->debugText = typeinfo_cast<CCLabelBMFont*>(node); 
-                    }
-                    else if(CCNode* node = getChildByID("time-label")){
-                        m_fields->debugText = typeinfo_cast<CCLabelBMFont*>(node); 
-                    }
-                }
-                m_fields->debugText->setOpacity(0);
-            }
+            if (m_infoLabel) m_fields->debugText = m_infoLabel;
         }
 
         if(m_fields->debugText) {
