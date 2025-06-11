@@ -37,8 +37,6 @@ class $modify(MyPlayLayer, PlayLayer){
         std::string gpuVersion;
         std::string gpuRenderer;
         std::string cocosVersion;
-        int fpsVal = 0;
-        int currentFps = 0;
         int totalMemory = 0;
         CCLabelBMFont* debugText;
     };
@@ -79,8 +77,6 @@ class $modify(MyPlayLayer, PlayLayer){
         }
 
         if (!Mod::get()->getSettingValue<bool>("f3-menu")) return true;
-
-		if(!Loader::get()->isModLoaded("geode.node-ids")) return true;
 
         CCConfiguration* config = CCConfiguration::sharedConfiguration();
         CCDictionary* dict = public_cast(config, m_pValueDict);
@@ -123,7 +119,7 @@ class $modify(MyPlayLayer, PlayLayer){
         m_fields->leftDebugNode->setPosition({1, winSize.height - 1});
         m_fields->leftDebugNode->setContentSize(winSize);
 
-        GameManager* gm = GameManager::get();
+        // GameManager* gm = GameManager::get();
 
         ColumnLayout* layout = ColumnLayout::create();
         layout->setAxisReverse(true);
@@ -157,8 +153,6 @@ class $modify(MyPlayLayer, PlayLayer){
         addChild(m_fields->rightDebugNode);
 
         schedule(schedule_selector(MyPlayLayer::updateDebugLabels), 1/60);
-        setFPS(0);
-        schedule(schedule_selector(MyPlayLayer::setFPS), 1);
 
         return true;
     }
@@ -186,31 +180,25 @@ class $modify(MyPlayLayer, PlayLayer){
 
             if(!m_fields->debugText->isVisible()) return;
 
-            m_fields->currentFps = std::ceil(1/dt);
-
             std::vector<std::string> lines = geode::utils::string::split(m_fields->debugText->getString(), "\n");
 
             createTextLayer("version-label"_spr, m_fields->leftDebugNode, "Minecraft " GEODE_GD_VERSION_STRING " (" GEODE_GD_VERSION_STRING "/Geode)");
-            createTextLayer("fps-label"_spr, m_fields->leftDebugNode, fmt::format("{} fps", m_fields->fpsVal));
-            createTextLayer("level-id-label"_spr, m_fields->leftDebugNode, fmt::format("ID: {}", getFromPos(0, lines)));
-
-            std::string timeVal = getFromPos(1, lines);
-            std::string attemptVal = getFromPos(2, lines);
-            std::string clickVal = getFromPos(3, lines);
-
-            createTextLayer("more-info-label"_spr, m_fields->leftDebugNode, fmt::format("A: {}, TW: {}, G: {}", getFromPos(8, lines), getFromPos(4, lines), getFromPos(5, lines)));
-            createTextLayer("level-info-label"_spr, m_fields->leftDebugNode, fmt::format("Time: {:.2f} Attempt: {} Clicks: {}", std::stof(timeVal), attemptVal, clickVal));
-
+            createTextLayer("fps-label"_spr, m_fields->leftDebugNode, fmt::format("{:.0f} fps", CCDirector::get()->m_fFrameRate));
+            createTextLayer("level-id-label"_spr, m_fields->leftDebugNode, fmt::format("ID: {}", m_level->m_levelID.value()));
+            createTextLayer("more-info-label"_spr, m_fields->leftDebugNode, fmt::format("A: {}, TW: {}, G: {}", m_activeObjects, m_gameState.m_timeWarp, m_player1->m_gravityMod));
+            createTextLayer("level-info-label"_spr, m_fields->leftDebugNode, fmt::format("Time: {:.2f} Attempt: {} Clicks: {}", m_attemptTime, m_attempts, m_clicks));
 
             CCLayerColor* dummySpace0 = createTextLayer("blank-label-0"_spr, m_fields->leftDebugNode, " ");
             dummySpace0->setOpacity(0);
 
-            createTextLayer("coords-label"_spr, m_fields->leftDebugNode, fmt::format("XY: {} / {}", getFromPos(6, lines), getFromPos(7, lines)));
-            createTextLayer("audio-label"_spr, m_fields->leftDebugNode, fmt::format("Sounds: {} Songs: {}", getFromPos(13, lines), getFromPos(12, lines)));
-            createTextLayer("gradients-label"_spr, m_fields->leftDebugNode, fmt::format("Gradients: {}", getFromPos(9, lines)));
-            createTextLayer("particles-label"_spr, m_fields->leftDebugNode, fmt::format("Particles: {}", getFromPos(10, lines)));
-            createTextLayer("perf-label"_spr, m_fields->leftDebugNode, fmt::format("Perf M: {}, R: {}, S: {}, F: {}", getFromPos(15, lines), getFromPos(16, lines), getFromPos(17, lines), getFromPos(18, lines)));
-            createTextLayer("area-label"_spr, m_fields->leftDebugNode, fmt::format("Area M: {}, R: {}, S: {}, ColOp: {}", getFromPos(20, lines), getFromPos(21, lines), getFromPos(22, lines), getFromPos(23, lines)));
+            FMODAudioEngine* engine = FMODAudioEngine::get();
+
+            createTextLayer("coords-label"_spr, m_fields->leftDebugNode, fmt::format("XY: {} / {}", m_player1->m_position.x, m_player1->m_position.y));
+            createTextLayer("audio-label"_spr, m_fields->leftDebugNode, fmt::format("Sounds: {} Songs: {}", engine->countActiveEffects(), engine->countActiveMusic()));
+            createTextLayer("gradients-label"_spr, m_fields->leftDebugNode, fmt::format("Gradients: {}", m_activeGradients));
+            createTextLayer("particles-label"_spr, m_fields->leftDebugNode, fmt::format("Particles: {}", m_particleCount));
+            createTextLayer("perf-label"_spr, m_fields->leftDebugNode, fmt::format("Perf M: {}, R: {}, S: {}, F: {}", m_movedCountDisplay, m_rotatedCountDisplay, m_scaledCountDisplay, m_followedCountDisplay));
+            createTextLayer("area-label"_spr, m_fields->leftDebugNode, fmt::format("Area M: {}, R: {}, S: {}, ColOp: {}", m_areaMovedCountDisplay, m_areaRotatedCountDisplay, m_areaScaledCountDisplay, m_areaColorCountDisplay));
 
             m_fields->leftDebugNode->updateLayout();
 
@@ -221,7 +209,7 @@ class $modify(MyPlayLayer, PlayLayer){
             if(sizeof(void*) == 8) bit = 64;
             else if(sizeof(void*) == 4) bit = 32;
             
-            CCLayerColor* cocosVersionText = createTextLayer("cocos-label"_spr, m_fields->rightDebugNode, fmt::format("Cocos2d-x: {} {}bit", m_fields->cocosVersion, bit));
+            // CCLayerColor* cocosVersionText = createTextLayer("cocos-label"_spr, m_fields->rightDebugNode, fmt::format("Cocos2d-x: {} {}bit", m_fields->cocosVersion, bit));
 
             #ifdef GEODE_IS_WINDOWS
 
@@ -263,10 +251,6 @@ class $modify(MyPlayLayer, PlayLayer){
         }
     }
 
-    void setFPS(float dt){
-        m_fields->fpsVal = m_fields->currentFps;
-    }
-
     CCLayerColor* createTextLayer(std::string id, CCNode* node, std::string text){
 
         if(CCLayerColor* bg0 = typeinfo_cast<CCLayerColor*>(node->getChildByID(id))){
@@ -295,6 +279,7 @@ class $modify(MyPlayLayer, PlayLayer){
         }
     }
 
+    /*
     std::string getFromPos(int pos, std::vector<std::string> values){
 
         std::string ret = "";
@@ -311,6 +296,7 @@ class $modify(MyPlayLayer, PlayLayer){
         }
         return ret;
     }
+    */
 };
 
 class $modify(MyCCKeyboardDispatcher, CCKeyboardDispatcher) {
