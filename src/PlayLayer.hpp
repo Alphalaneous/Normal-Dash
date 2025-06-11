@@ -304,7 +304,7 @@ class $modify(MyPlayLayer, PlayLayer){
             std::string value = values.at(pos);
             std::vector<std::string> splitValue = geode::utils::string::split(value, ":");
 
-            if(splitValue.size() > 0){
+            if(splitValue.size() > 1){
                 ret = splitValue.at(1);
             }
             geode::utils::string::trimIP(ret);
