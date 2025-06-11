@@ -180,7 +180,7 @@ class $modify(MyPlayLayer, PlayLayer){
 
             if(!m_fields->debugText->isVisible()) return;
 
-            std::vector<std::string> lines = geode::utils::string::split(m_fields->debugText->getString(), "\n");
+            // std::vector<std::string> lines = geode::utils::string::split(m_fields->debugText->getString(), "\n");
 
             createTextLayer("version-label"_spr, m_fields->leftDebugNode, "Minecraft " GEODE_GD_VERSION_STRING " (" GEODE_GD_VERSION_STRING "/Geode)");
             createTextLayer("fps-label"_spr, m_fields->leftDebugNode, fmt::format("{:.0f} fps", CCDirector::get()->m_fFrameRate));
