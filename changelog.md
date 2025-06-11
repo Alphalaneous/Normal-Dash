@@ -1,3 +1,7 @@
+# 1.0.2
+- Add cheat tag
+- Add permanent safe mode
+
 # 1.0.1
 - Metadata fix
 

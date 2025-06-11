@@ -6,7 +6,7 @@
 	},
 	"id": "alphalaneous.normal_dash",
 	"name": "Totally Normal Dash",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "Alphalaneous",
 	"description": "100% normal Geometry Dash",
 	"resources": {
@@ -84,7 +84,7 @@
 		"geode.node-ids": "1.20.1"
 	},
 	"tags": [
-		"joke"
+		"joke", "cheat"
 	],
 	"links": {
         "homepage": "https://linktr.ee/Alphalaneous",
