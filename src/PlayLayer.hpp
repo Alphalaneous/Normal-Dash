@@ -31,7 +31,6 @@ class $modify(MyPlayLayer, PlayLayer){
     struct Fields {
         CCNode* leftDebugNode;
         CCNode* rightDebugNode;
-        SEL_SCHEDULE fpsSchedule;
         std::string cpuName;
         std::string gpuVendor;
         std::string gpuVersion;
@@ -86,11 +85,7 @@ class $modify(MyPlayLayer, PlayLayer){
         m_fields->gpuVersion = std::string(static_cast<CCString*>(dict->objectForKey("gl.version"))->getCString());
         m_fields->cocosVersion = std::string(static_cast<CCString*>(dict->objectForKey("cocos2d.x.version"))->getCString());
 
-        #ifndef GEODE_IS_ANDROID
-
         m_fields->cpuName = getCPUInfo();
-
-        #endif
 
         geode::utils::string::trimIP(m_fields->gpuVendor);
         geode::utils::string::trimIP(m_fields->gpuRenderer);
